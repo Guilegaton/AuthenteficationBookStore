@@ -1,0 +1,72 @@
+﻿@model List<AuthenteficationBookStore.Models.Book>
+
+@{
+    ViewBag.Title = "Home Page";
+    var options = new AjaxOptions()
+    {
+        UpdateTargetId = "tabledata",
+        Url = Url.Action("JsonGetBooks"),
+        LoadingElementId = "loadingIndicator",
+        OnSuccess = "ParseResponse",
+    };
+}
+@using (Ajax.BeginForm(options))
+{
+    <div>
+    <input type="text" name="name" style="margin-top: 10px" placeholder ="Search by author name"/>
+    <input type="submit" value="search" />
+        </div>
+    <div id="loadingIndicator" style="display:none;">Loading...</div>
+<table style="margin-top:2%;
+    width: 100%;
+    border-spacing: 4px; ">
+    <tbody id="uploadTarget">
+    @for (int count = 0; count < Model.Count();)
+    {
+        <tr>
+            @for (int i = 0; i < 3 && count < Model.Count; i++)
+            {
+                <td>
+                    <a href="/Home/BookInfo/@Model[count].Id">
+                        <img src="@Url.Content(Model[count].ImageURL)" alt="Not Work" width="200" height="350" />
+                    </a>
+                    <h4>@Model[count].Name</h4>
+                    <h4>@Model[count].Author</h4>
+                    @{count++;}
+                </td>
+                        }
+        </tr>
+                            }
+        </tbody>
+</table>
+}
+
+@section scripts
+{
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript">
+        function ParseResponse(data) {
+            if (data != null) {
+                var target = $("#uploadTarget");
+                target.empty();
+                for (var i = 0; i < data.length;) {
+                    target.append("<tr>")
+                    for (var a = 0; a < 3 && i < data.length; a++) {
+                        target.append(
+                            "<td>" +
+                            "<a href=\"/Home/BookInfo/" + data[i].Id + "\">" +
+                                "<img src=\"" + data[i].ImageURL + "\" alt=\"Not Work\" width=\"200\" height=\"350\" />" +
+                            "</a>" +
+                            "<h4>" + data[i].Name + "</h4>" +
+                            "<h4>" + data[i].Author + "</h4>" +
+                            "</td>");
+                        i++;
+                    }
+                    target.append("</tr>");
+                }
+            }
+        }
+
+    </script>
+}

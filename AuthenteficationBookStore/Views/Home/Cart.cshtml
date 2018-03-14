@@ -1,0 +1,43 @@
+﻿@model IEnumerable<AuthenteficationBookStore.Models.Book>
+
+@{
+    ViewBag.Title = "Cart";
+    int totalPrice = 0 ;
+}
+
+@using (Html.BeginForm("Buy", "Home"))
+{
+    <h2>Cart</h2>
+    if (Model.Count() > 0)
+    {
+        <table>
+              @foreach (var item in Model)
+              {
+                  totalPrice += item.Price;
+                    <tr>
+                        <td><p><h2>@item.Name; @item.Author</h2></p></td>
+                        <td><p><h2>@item.Price</h2></p></td>
+                    </tr>
+              }
+            <tr>
+                <td><p><h3>Total price</h3></p></td>
+                <td><p><h3>@totalPrice</h3></p></td>
+            </tr>
+        </table>
+        <input type="submit" value="Confirm" id="Confirm" />
+        }
+}
+@if (Model.Count() == 0)
+{
+    <p><h4>Cart is empty</h4></p>
+}
+  
+@section scripts{
+    <script type="text/javascript">
+
+        $('#Confirm').on('click', function () {
+            alert("Thank you for your purchase!");
+        }
+        );
+    </script>
+}

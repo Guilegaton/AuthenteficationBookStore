@@ -1,0 +1,28 @@
+﻿@model IEnumerable<AuthenteficationBookStore.Models.ApplicationRole>
+
+@{
+
+    ViewBag.Title = "Роли";
+}
+
+<h2>Roles</h2>
+@Html.ActionLink("Create", "Create", "Roles")
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Description</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>

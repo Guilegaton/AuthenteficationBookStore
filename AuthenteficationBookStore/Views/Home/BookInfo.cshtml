@@ -1,0 +1,31 @@
+﻿@model AuthenteficationBookStore.Models.Book
+
+@{
+    ViewBag.Title = "BookInfo";
+}
+
+<h2>BookInfo</h2>
+<table>
+    <tr>
+        <td>
+            <p><h3>Name:   @Model.Name</h3></p>
+            <p><h3>Author: @Model.Author</h3></p>
+            <p><h3>Price:  @Model.Price</h3></p>
+            @if (User.IsInRole("Admin"))
+            {
+                <p>@Html.ActionLink("edit", "EditBook", Model)</p>
+                <p>@Html.ActionLink("delete", "DeleteBook", Model)</p>
+            }
+            else
+            {
+                <p>@Html.ActionLink("Buy", "BuyBook", Model)</p>
+            }
+        </td>
+        <td>
+            <div style="position: absolute; top: 8%; left: 70%;">
+                <img src="@Url.Content(Model.ImageURL)" align="right" width="250" height="400"/>
+            </div>
+        </td>
+    </tr>
+</table>
+<p style="margin-top:200px;"><h3>@Model.Details</h3></p>
